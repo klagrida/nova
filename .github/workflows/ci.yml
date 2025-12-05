@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  ci:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -46,45 +46,43 @@ jobs:
           version: latest
 
       - name: Start Supabase
-        run: supabase start
+        run: cd apps/ice-breaker/supabase && supabase start
 
       - name: Install Playwright browsers
-        run: |
-          cd apps/admin-app && pnpm exec playwright install --with-deps chromium
-          cd ../web-app && pnpm exec playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps chromium
 
-      - name: Build admin-app
-        run: pnpm admin-app:build
+      - name: Build admin
+        run: cd apps/ice-breaker/admin && pnpm build
 
-      - name: Build web-app
-        run: pnpm web-app:build
+      - name: Build web
+        run: cd apps/ice-breaker/web && pnpm build
 
-      - name: Run admin-app E2E tests
-        run: pnpm admin-app:test:e2e
+      - name: Run admin E2E tests
+        run: cd apps/ice-breaker/admin && pnpm e2e
         env:
           CI: true
 
-      - name: Run web-app E2E tests
-        run: pnpm web-app:test:e2e
+      - name: Run web E2E tests
+        run: cd apps/ice-breaker/web && pnpm e2e
         env:
           CI: true
 
-      - name: Upload admin-app test results
+      - name: Upload admin test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: admin-app-playwright-report
-          path: apps/admin-app/playwright-report/
+          name: admin-playwright-report
+          path: apps/ice-breaker/admin/playwright-report/
           retention-days: 7
 
-      - name: Upload web-app test results
+      - name: Upload web test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: web-app-playwright-report
-          path: apps/web-app/playwright-report/
+          name: web-playwright-report
+          path: apps/ice-breaker/web/playwright-report/
           retention-days: 7
 
       - name: Stop Supabase
         if: always()
-        run: supabase stop
+        run: cd apps/ice-breaker/supabase && supabase stop
