@@ -1,0 +1,16 @@
+{
+  "name": "nova",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Nova workspace",
+  "scripts": {
+    "dev": "pnpm --parallel --stream run dev",
+    "build": "pnpm --parallel run build",
+    "test": "pnpm --parallel run test"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=8"
+  }
+}
