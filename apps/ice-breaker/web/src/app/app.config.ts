@@ -3,14 +3,13 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { initializeSupabase } from '@ice-breaker/data-access-supabase';
+import config from '../config.json';
 
 function initializeApp() {
   return () => {
-    // Initialize Supabase with environment variables
-    // In production, these should come from environment files
     initializeSupabase({
-      url: 'https://your-project.supabase.co',
-      anonKey: 'your-anon-key',
+      url: config.supabase.url,
+      anonKey: config.supabase.anonKey,
     });
   };
 }

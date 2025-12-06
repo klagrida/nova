@@ -84,3 +84,7 @@ Desktop.ini
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Configuration files (keep .example files)
+**/config.json
+!**/config.example.json

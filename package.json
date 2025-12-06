@@ -2,11 +2,15 @@
   "name": "nova",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "description": "Nova workspace",
   "scripts": {
     "dev": "pnpm --parallel --stream run dev",
     "build": "pnpm --parallel run build",
-    "test": "pnpm --parallel run test"
+    "test": "pnpm --parallel run test",
+    "config:generate": "node scripts/generate-config.js",
+    "predev": "pnpm config:generate",
+    "prebuild": "pnpm config:generate"
   },
   "devDependencies": {},
   "engines": {
