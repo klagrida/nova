@@ -10,6 +10,13 @@ function initializeApp() {
     initializeSupabase({
       url: config.supabase.url,
       anonKey: config.supabase.anonKey,
+      options: {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true,
+        },
+      },
     });
   };
 }

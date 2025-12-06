@@ -54,11 +54,14 @@ test.describe('Authentication', () => {
 
   test('should successfully sign up with valid data', async ({ page }) => {
     await page.getByRole('link', { name: /sign up|create account/i }).click();
+    await expect(page).toHaveURL(/signup|register/);
+    await expect(page.getByRole('heading', { name: /sign up|create account/i })).toBeVisible();
 
-    await page.getByLabel(/email/i).fill('newuser@example.com');
-    await page.getByLabel(/^password/i).first().fill('SecurePass123!');
-    await page.getByLabel(/confirm password/i).fill('SecurePass123!');
-    await page.getByLabel(/display name|name/i).fill('Test User');
+    const uniqueEmail = `testuser-${Date.now()}@example.com`;
+    await page.getByLabel('Email').fill(uniqueEmail);
+    await page.getByLabel('Password', { exact: true }).fill('SecurePass123!');
+    await page.getByLabel('Confirm Password').fill('SecurePass123!');
+    await page.getByLabel('Display Name').fill('Test User');
 
     await page.getByRole('button', { name: /sign up|create account/i }).click();
 
@@ -70,10 +73,13 @@ test.describe('Authentication', () => {
 
   test('should show error when passwords do not match', async ({ page }) => {
     await page.getByRole('link', { name: /sign up|create account/i }).click();
+    await expect(page).toHaveURL(/signup|register/);
+    await expect(page.getByRole('heading', { name: /sign up|create account/i })).toBeVisible();
 
-    await page.getByLabel(/email/i).fill('newuser@example.com');
-    await page.getByLabel(/^password/i).first().fill('Password123!');
-    await page.getByLabel(/confirm password/i).fill('DifferentPass123!');
+    const uniqueEmail = `testuser-${Date.now()}@example.com`;
+    await page.getByLabel('Email').fill(uniqueEmail);
+    await page.getByLabel('Password', { exact: true }).fill('Password123!');
+    await page.getByLabel('Confirm Password').fill('DifferentPass123!');
 
     await page.getByRole('button', { name: /sign up|create account/i }).click();
 
@@ -111,12 +117,16 @@ test.describe('Authentication', () => {
     await page.getByRole('button', { name: /sign in/i }).click();
 
     await expect(page).toHaveURL(/dashboard|home/);
+    await expect(page.getByRole('button', { name: /sign out|logout/i })).toBeVisible();
 
     // Reload page
     await page.reload();
 
+    // Wait for page to fully load after reload
+    await page.waitForLoadState('networkidle');
+
     // Should still be logged in
     await expect(page).toHaveURL(/dashboard|home/);
-    await expect(page.getByText(/welcome/i)).toBeVisible();
+    await expect(page.getByRole('heading', { name: /admin dashboard|dashboard/i })).toBeVisible();
   });
 });

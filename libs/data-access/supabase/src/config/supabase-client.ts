@@ -5,20 +5,43 @@
 
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@ice-breaker/shared-models';
-import type { SupabaseConfig } from './supabase-config';
+import type { SupabaseConfig } from './supabase-config.js';
+import { DEFAULT_SUPABASE_CONFIG } from './supabase-config.js';
 
 let supabaseInstance: SupabaseClient<Database> | null = null;
 
 /**
  * Initialize Supabase client
  */
-export function initializeSupabase(config: SupabaseConfig): SupabaseClient<Database> {
+export function initializeSupabase(config: Partial<SupabaseConfig>): SupabaseClient<Database> {
   if (supabaseInstance) {
     console.warn('Supabase client already initialized. Returning existing instance.');
     return supabaseInstance;
   }
 
-  supabaseInstance = createClient<Database>(config.url, config.anonKey, config.options);
+  // Merge with default config to ensure session persistence and other defaults
+  const mergedConfig = {
+    ...DEFAULT_SUPABASE_CONFIG,
+    ...config,
+    options: {
+      ...DEFAULT_SUPABASE_CONFIG.options,
+      ...config.options,
+      auth: {
+        ...DEFAULT_SUPABASE_CONFIG.options?.auth,
+        ...config.options?.auth,
+      },
+      realtime: {
+        ...DEFAULT_SUPABASE_CONFIG.options?.realtime,
+        ...config.options?.realtime,
+      },
+    },
+  };
+
+  if (!mergedConfig.url || !mergedConfig.anonKey) {
+    throw new Error('Supabase URL and anon key are required');
+  }
+
+  supabaseInstance = createClient<Database>(mergedConfig.url, mergedConfig.anonKey, mergedConfig.options);
 
   return supabaseInstance;
 }

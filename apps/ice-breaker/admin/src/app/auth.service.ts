@@ -26,9 +26,15 @@ export class AuthService {
   }
 
   private async initializeAuth() {
-    const currentUser = await getUser();
-    this.user.set(currentUser as User | null);
-    this.loading.set(false);
+    try {
+      const currentUser = await getUser();
+      this.user.set(currentUser as User | null);
+    } catch (error) {
+      console.error('Failed to initialize auth:', error);
+      this.user.set(null);
+    } finally {
+      this.loading.set(false);
+    }
 
     onAuthStateChange((user) => {
       this.user.set(user as User | null);

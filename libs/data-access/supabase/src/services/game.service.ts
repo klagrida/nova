@@ -3,7 +3,7 @@
  * Handles all game-related API calls
  */
 
-import { getSupabase } from '../config/supabase-client';
+import { getSupabase } from '../config/supabase-client.js';
 import type {
   Game,
   Player,
