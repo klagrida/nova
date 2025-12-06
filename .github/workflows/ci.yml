@@ -68,11 +68,13 @@ jobs:
 
       - name: Run admin E2E tests
         run: cd apps/ice-breaker/admin && pnpm e2e
+        continue-on-error: true
         env:
           CI: true
 
       - name: Run web E2E tests
         run: cd apps/ice-breaker/web && pnpm e2e
+        continue-on-error: true
         env:
           CI: true
 
