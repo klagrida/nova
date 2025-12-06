@@ -8,7 +8,13 @@ import {
   type SignInParams,
   type SignUpParams,
 } from '@ice-breaker/data-access-supabase';
-import type { User } from '@supabase/supabase-js';
+
+// User type definition to avoid importing from @supabase/supabase-js during build
+interface User {
+  id: string;
+  email?: string;
+  [key: string]: unknown;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -21,11 +27,11 @@ export class AuthService {
 
   private async initializeAuth() {
     const currentUser = await getUser();
-    this.user.set(currentUser);
+    this.user.set(currentUser as User | null);
     this.loading.set(false);
 
     onAuthStateChange((user) => {
-      this.user.set(user);
+      this.user.set(user as User | null);
     });
   }
 
