@@ -4,7 +4,7 @@
  */
 
 import { RealtimeChannel } from '@supabase/supabase-js';
-import { getSupabase } from '../config/supabase-client';
+import { getSupabase } from '../config/supabase-client.js';
 import type {
   Player,
   Round,

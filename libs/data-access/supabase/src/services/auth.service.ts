@@ -3,7 +3,7 @@
  * Handles user authentication (for game hosts)
  */
 
-import { getSupabase } from '../config/supabase-client';
+import { getSupabase } from '../config/supabase-client.js';
 import type { User, Session } from '@supabase/supabase-js';
 
 export interface SignUpParams {

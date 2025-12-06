@@ -4,13 +4,13 @@
  */
 
 // Configuration
-export * from './config/supabase-config';
-export * from './config/supabase-client';
+export * from './config/supabase-config.js';
+export * from './config/supabase-client.js';
 
 // Services
-export * from './services/game.service';
-export * from './services/realtime.service';
-export * from './services/auth.service';
+export * from './services/game.service.js';
+export * from './services/realtime.service.js';
+export * from './services/auth.service.js';
 
 // Utils
-export * from './utils/error-handler';
+export * from './utils/error-handler.js';

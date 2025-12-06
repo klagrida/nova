@@ -233,5 +233,60 @@ export interface Database {
       achievements: Achievement;
       player_achievements: PlayerAchievement;
     };
+    Functions: {
+      create_game: {
+        Args: {
+          p_name?: string;
+          p_game_mode?: GameMode;
+          p_max_players?: number;
+          p_total_rounds?: number;
+          p_settings?: unknown;
+        };
+        Returns: Game;
+      };
+      join_game: {
+        Args: {
+          p_game_code: string;
+          p_display_name: string;
+          p_avatar_url?: string;
+        };
+        Returns: Player;
+      };
+      start_game: {
+        Args: {
+          p_game_id: string;
+        };
+        Returns: Game;
+      };
+      draw_card: {
+        Args: {
+          p_game_id: string;
+          p_category_name?: string;
+        };
+        Returns: QuestionCard;
+      };
+      play_card: {
+        Args: {
+          p_game_id: string;
+          p_card_id: string;
+          p_was_skipped: boolean;
+          p_time_spent_seconds?: number;
+        };
+        Returns: Round;
+      };
+      add_reaction: {
+        Args: {
+          p_card_play_id: string;
+          p_reaction_type: string;
+        };
+        Returns: Reaction;
+      };
+      leave_game: {
+        Args: {
+          p_game_id: string;
+        };
+        Returns: boolean;
+      };
+    };
   };
 }
