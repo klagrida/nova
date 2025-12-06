@@ -3,8 +3,8 @@
  * These match the database functions we created
  */
 
-import { Game, Player, QuestionCard, Reaction, Round } from './database.types';
-import { GameMode, GameSettings } from './database.types';
+import { Game, Player, QuestionCard, Reaction, Round, GameSettings } from './database.types';
+import { GameMode } from './enums';
 
 /**
  * Function: create_game()
