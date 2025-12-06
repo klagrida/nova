@@ -31,7 +31,7 @@ export async function createGame(params: CreateGameParams): Promise<ApiResponse<
       p_max_players: params.maxPlayers,
       p_total_rounds: params.totalRounds,
       p_settings: params.settings as any,
-    });
+    } as any);
 
     if (error) {
       return { data: null, error: { message: error.message, code: error.code } };
@@ -57,7 +57,7 @@ export async function joinGame(params: JoinGameParams): Promise<ApiResponse<Play
       p_game_code: params.gameCode,
       p_display_name: params.displayName,
       p_avatar_url: params.avatarUrl,
-    });
+    } as any);
 
     if (error) {
       return { data: null, error: { message: error.message, code: error.code } };
@@ -81,7 +81,7 @@ export async function startGame(gameId: string): Promise<ApiResponse<Game>> {
 
     const { data, error } = await supabase.rpc('start_game', {
       p_game_id: gameId,
-    });
+    } as any);
 
     if (error) {
       return { data: null, error: { message: error.message, code: error.code } };
@@ -106,7 +106,7 @@ export async function drawCard(params: DrawCardParams): Promise<ApiResponse<Ques
     const { data, error } = await supabase.rpc('draw_card', {
       p_game_id: params.gameId,
       p_category_name: params.categoryName,
-    });
+    } as any);
 
     if (error) {
       return { data: null, error: { message: error.message, code: error.code } };
@@ -133,7 +133,7 @@ export async function playCard(params: PlayCardParams): Promise<ApiResponse<Roun
       p_card_id: params.cardId,
       p_was_skipped: params.wasSkipped ?? false,
       p_time_spent_seconds: params.timeSpentSeconds,
-    });
+    } as any);
 
     if (error) {
       return { data: null, error: { message: error.message, code: error.code } };
@@ -158,7 +158,7 @@ export async function addReaction(params: AddReactionParams): Promise<ApiRespons
     const { data, error } = await supabase.rpc('add_reaction', {
       p_card_play_id: params.cardPlayId,
       p_reaction_type: params.reactionType,
-    });
+    } as any);
 
     if (error) {
       return { data: null, error: { message: error.message, code: error.code } };
@@ -182,7 +182,7 @@ export async function leaveGame(gameId: string): Promise<ApiResponse<boolean>> {
 
     const { data, error } = await supabase.rpc('leave_game', {
       p_game_id: gameId,
-    });
+    } as any);
 
     if (error) {
       return { data: null, error: { message: error.message, code: error.code } };
